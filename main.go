@@ -5,41 +5,15 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 var (
-	app  = tview.NewApplication() // The main tview application. contains all other elements.
-	flex = tview.NewFlex()
-	menu = tview.NewList().ShowSecondaryText(false)
+	app       = tview.NewApplication() // The main tview application. contains all other elements.
+	flex      = tview.NewFlex()
+	menu      = tview.NewList().ShowSecondaryText(false)
+	bottomBox = tview.NewTextView() // Container for the lower 2 lines of text
 )
-
-func initMenu(l *tview.List) {
-	l.AddItem("Quit", "Weapon", rune('Q'), nil)
-	l.SetBorderPadding(1, 1, 1, 1)
-
-	// Configure the list's style
-	l.SetBorder(true)
-	l.SetMainTextColor(tcell.ColorDarkSlateGrey)
-	l.SetSelectedBackgroundColor(tcell.ColorBlack)
-	l.SetSelectedTextColor(tcell.Color(tcell.AttrBold))
-	l.SetShortcutColor(tcell.ColorDarkCyan)
-	l.SetSelectedFunc(func(index int, name string, secondaryText string, shortcut rune) {
-		switch name {
-		case "Quit":
-			app.Stop()
-		}
-	})
-
-	l.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		switch key := event.Rune(); {
-		case key == 'q':
-			app.Stop()
-		}
-		return event
-	})
-}
 
 // MAIN
 func main() {
@@ -70,9 +44,13 @@ func main() {
 	// Init the menu
 	initMenu(menu)
 
+	bottomText := "This is the bottom text"
+	bottomBox.SetText(bottomText)
+
 	// Configure flexbox
 	flex.SetDirection(tview.FlexRow).
-		AddItem(tview.NewFlex().AddItem(menu, 0, 1, true), 0, 1, false)
+		AddItem(menu, 0, 1, true).
+		AddItem(bottomBox, 2, 0, false)
 
 	// Render
 	if err := app.SetRoot(flex, true).SetFocus(menu).Run(); err != nil {
