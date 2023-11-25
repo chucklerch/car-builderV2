@@ -67,7 +67,12 @@ func main() {
 	// Log startup
 	slog.Info("Application Startup")
 
+	// Init the menu
 	initMenu(menu)
+
+	// Configure flexbox
+	flex.SetDirection(tview.FlexRow).
+		AddItem(tview.NewFlex().AddItem(menu, 0, 1, true), 0, 1, false)
 
 	// Render
 	if err := app.SetRoot(flex, true).SetFocus(menu).Run(); err != nil {

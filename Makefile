@@ -16,7 +16,7 @@ $(EXECUTABLE): $(SOURCES) ## Create executable
 .PHONY: clean
 clean: ## Clean up
 	@echo "\033[33;1mCleaning\033[0m"
-	rm -f $(EXECUTABLE)
+	rm -f $(EXECUTABLE) log.txt
 
 .PHONY: help
 help: ## Display help
