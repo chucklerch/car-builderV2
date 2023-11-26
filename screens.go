@@ -7,6 +7,13 @@ import (
 	"github.com/rivo/tview"
 )
 
+var (
+	flex      = tview.NewFlex()
+	menu      = tview.NewList().ShowSecondaryText(false)
+	topBox    = tview.NewTextView() // Container for the top line of text
+	bottomBox = tview.NewTextView() // Container for the lower 2 lines of text
+)
+
 func initMenu(l *tview.List) {
 	l.AddItem("Quit", "Quit", rune('Q'), nil)
 	l.SetBorderPadding(1, 1, 1, 1)
